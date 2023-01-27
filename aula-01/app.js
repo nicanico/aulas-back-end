@@ -21,5 +21,5 @@ var entradaDados = readline.createInterface({
 // o metodo question permite que o retorno seja atraves de uma função de callback, nesse caso nome, criamos ela
 // após a virgula
 entradaDados.question('Favor digitar o seu nome: \n', function(nome){
-    console.log('Bem vindo, ' + nome + ' ao servidor node.js!')
+    console.log('Bem vindo, ', nome,' ao servidor node.js!')
 })
