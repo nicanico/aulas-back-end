@@ -37,9 +37,7 @@ entradaDados.question('Digite o número da operação desejada\n 1-soma\n 2-subt
                 resultado = parseFloat(valor1) * parseFloat(valor2)
                 console.log(resultado)
             }
-        
         })
-    
     })
 }
 })
