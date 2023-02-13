@@ -28,6 +28,9 @@ entradaDados.question('Seja bem vindo(a) ao separador de números\n Insira o nú
             entradaDados.close()
         } else {
             calcular = calculoParEImpar.exibirNumeros(inicialNumber, finalNumber)
+            if(calcular == false){
+                console.log('Você inseriu valores de entrada abaixo de 0 e acima de 500 ou inseriu valor final inferior a 100 ou acima de 1000')
+            }
             entradaDados.close()
         }
     })

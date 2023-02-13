@@ -66,9 +66,10 @@ entradaDados.question('Informe o nome do aluno(a): ', function (nomeAluno) {
                                         } else if (valor1 < 0 || valor2 < 0 || valor3 < 0 || valor4 < 0) {
                                             console.log('Número inferir a 0, por favor insira números máximos a 100')
                                             entradaDados.close()
-                                        } else if (generoAlun != 'F' || generoAlun != 'M' || generoProf != 'F' || generoProf != 'M') {
+                                        } else if (generoAlun != 'F' && generoAlun != 'M' || generoProf != 'F' && generoProf != 'M') {
                                             console.log('expressão invalida, por favor digite o genero corretamente')
-                                        } else {
+                                        } 
+                                        else {
                                             resultado = mediaResultado.media(nota1, nota2, nota3, nota4)
                                             if (resultado >= 50 && resultado <= 69) {
                                                 entradaDados.question('Aluno reprovado, por favor insira nota do exame: ', function (notaExame) {

@@ -30,7 +30,7 @@ function formExame(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDiscip
     resultadoComExame = (notaDoExame + novoCalc) / 2
 
     if (resultadoComExame < 60) {
-        if (generoProf == 'F' || generoAlun == 'F') {
+        if (generoProf == 'F' && generoAlun == 'F') {
             return console.log(`
             A aluna ${nomeAluno} foi reprovada na ${disciplina}. \n
             Curso: ${curso} \n
@@ -39,7 +39,7 @@ function formExame(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDiscip
             Média Final: ${novoCalc}
             Média Final do exame: ${resultadoComExame}
             `)
-        } else if (generoProf == 'M' || generoAlun == 'M') {
+        } else if (generoProf == 'M' && generoAlun == 'M') {
             return console.log(`
             O aluno ${nomeAlun} foi reprovado na ${disciplina}. \n
             Curso: ${curso} \n
@@ -49,7 +49,7 @@ function formExame(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDiscip
             Média Final do exame: ${resultadoComExame}
 
             `)
-        } else if (generoProf == 'M' || generoAlun == 'F') {
+        } else if (generoProf == 'M' && generoAlun == 'F') {
             return console.log(`
             A aluna ${nomeAlun} foi reprovada na ${disciplina}. \n
             Curso: ${curso} \n
@@ -58,7 +58,7 @@ function formExame(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDiscip
             Média Final: ${novoCalc}\n
             Média Final do exame: ${resultadoComExame}
             `)
-        } else if (generoProf == 'F' || generoAlun == 'M') {
+        } else if (generoProf == 'F' && generoAlun == 'M') {
             return console.log(`
             O aluno ${nomeAlun} foi reprovado na ${disciplina}. \n
             Curso: ${curso} \n
@@ -69,7 +69,7 @@ function formExame(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDiscip
             `)
         }
     } else if (resultadoComExame > 60) {
-        if (generoProf == 'F' || generoAlun == 'F') {
+        if (generoProf == 'F' && generoAlun == 'F') {
             return console.log(`
             A aluna ${nomeAlun} foi aprovada na ${disciplina}. \n
             Curso: ${curso} \n
@@ -78,7 +78,7 @@ function formExame(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDiscip
             Média Final: ${novoCalc}\n
             Média Final do exame: ${resultadoComExame}
             `)
-        } else if (generoProf == 'M' || generoAlun == 'M') {
+        } else if (generoProf == 'M' && generoAlun == 'M') {
             return console.log(`
             O aluno ${nomeAlun} foi aprovado na ${disciplina}. \n
             Curso: ${curso} \n
@@ -87,7 +87,7 @@ function formExame(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDiscip
             Média Final: ${novoCalc}\n
             Média Final do exame: ${resultadoComExame}
             `)
-        } else if (generoProf == 'M' || generoAlun == 'F') {
+        } else if (generoProf == 'M' && generoAlun == 'F') {
             return console.log(`
             A aluna ${nomeAlun} foi aprovada na ${disciplina}. \n
             Curso: ${curso} \n
@@ -96,7 +96,7 @@ function formExame(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDiscip
             Média Final: ${novoCalc}\n
             Média Final do exame: ${resultadoComExame}
             `)
-        } else if (generoProf == 'F' || generoAlun == 'M') {
+        } else if (generoProf == 'F' && generoAlun == 'M') {
             return console.log(`
             O aluno ${nomeAlun} foi aprovado na ${disciplina}. \n
             Curso: ${curso} \n
@@ -125,7 +125,7 @@ function form(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDisciplina,
 
 
     if (mediaFinal < 50) {
-        if (generoProf == 'F' || generoAlun == 'F') {
+        if (generoProf == 'F' && generoAlun == 'F') {
             return console.log(`
             A aluna ${nomeAluno} foi reprovada na ${disciplina}. \n
             Curso: ${curso} \n
@@ -133,7 +133,7 @@ function form(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDisciplina,
             Notas da aluna: ${valor1}, ${valor2}, ${valor3}, ${valor4}\n
             Média Final: ${mediaFinal}
             `)
-        } else if (generoProf == 'M' || generoAlun == 'M') {
+        } else if (generoProf == 'M' && generoAlun == 'M') {
             return console.log(`
             O aluno ${nomeAlun} foi reprovado na ${disciplina}. \n
             Curso: ${curso} \n
@@ -141,7 +141,7 @@ function form(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDisciplina,
             Notas do aluno: ${valor1}, ${valor2}, ${valor3}, ${valor4}\n
             Média Final: ${mediaFinal}
             `)
-        } else if (generoProf == 'M' || generoAlun == 'F') {
+        } else if (generoProf == 'M' && generoAlun == 'F') {
             return console.log(`
             A aluna ${nomeAlun} foi reprovada na ${disciplina}. \n
             Curso: ${curso} \n
@@ -149,7 +149,7 @@ function form(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDisciplina,
             Notas da aluna: ${valor1}, ${valor2}, ${valor3}, ${valor4}\n
             Média Final: ${mediaFinal}
             `)
-        } else if (generoProf == 'F' || generoAlun == 'M') {
+        } else if (generoProf == 'F' && generoAlun == 'M') {
             return console.log(`
             O aluno ${nomeAlun} foi reprovado na ${disciplina}. \n
             Curso: ${curso} \n
@@ -159,7 +159,7 @@ function form(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDisciplina,
             `)
         }
     } else if (mediaFinal >= 70) {
-        if (generoProf == 'F' || generoAlun == 'F') {
+        if (generoProf == 'F' && generoAlun == 'F') {
             return console.log(`
             A aluna ${nomeAlun} foi aprovada na ${disciplina}. \n
             Curso: ${curso} \n
@@ -167,7 +167,7 @@ function form(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDisciplina,
             Notas da aluna: ${valor1}, ${valor2}, ${valor3}, ${valor4}\n
             Média Final: ${mediaFinal}
             `)
-        } else if (generoProf == 'M' || generoAlun == 'M') {
+        } else if (generoProf == 'M' && generoAlun == 'M') {
             return console.log(`
             O aluno ${nomeAlun} foi aprovado na ${disciplina}. \n
             Curso: ${curso} \n
@@ -175,7 +175,7 @@ function form(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDisciplina,
             Notas do aluno: ${valor1}, ${valor2}, ${valor3}, ${valor4}\n
             Média Final: ${mediaFinal}
             `)
-        } else if (generoProf == 'M' || generoAlun == 'F') {
+        } else if (generoProf == 'M' && generoAlun == 'F') {
             return console.log(`
             A aluna ${nomeAlun} foi aprovada na ${disciplina}. \n
             Curso: ${curso} \n
@@ -183,7 +183,7 @@ function form(nomeAlun, sexoAlun, nomeProf, sexoProf, nomeCurso, nomeDisciplina,
             Notas da aluna: ${valor1}, ${valor2}, ${valor3}, ${valor4}\n
             Média Final: ${mediaFinal}
             `)
-        } else if (generoProf == 'F' || generoAlun == 'M') {
+        } else if (generoProf == 'F' && generoAlun == 'M') {
             return console.log(`
             O aluno ${nomeAlun} foi aprovado na ${disciplina}. \n
             Curso: ${curso} \n
