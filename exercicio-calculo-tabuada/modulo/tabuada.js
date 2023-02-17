@@ -32,10 +32,6 @@ function calculoTabuada(minimo, maximo, valorInicial) {
         minimoMultiplicador++
     }
 }
-// exibir titulo da tabuada inicial
-// após isso exibir a tabuada
-// assim sucessivamente até a tabuada final
-// mudar número do titiulo e mudar multiplicador a cada tabuada
 
 //tabuada(3, 8, 7, 9)
 

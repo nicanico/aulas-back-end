@@ -15,7 +15,7 @@ function exibirNumeros(inicialNumber, finalNumber, escolha) {
     if(numeroInicial < 0 || numeroInicial > 500 || numeroFinal < 100 || numeroFinal > 1000 || escolhaImparOuPar.toUpperCase() != 'AMBAS' && escolhaImparOuPar.toUpperCase() != 'PARES' && escolhaImparOuPar.toUpperCase() != 'IMPARES'){
         return false
     } else if(numeroInicial == numeroFinal || numeroInicial > numeroFinal){ 
-        console.log('Você inseriu entradas e saidas iguais ou o número inicial é do que o final, tente novamente')
+        console.log('Você inseriu entradas e saidas iguais ou o número inicial é maior do que o final, tente novamente!')
     } else {
         if(escolhaImparOuPar.toUpperCase() == 'AMBAS'){
             console.log(tituloPar)
