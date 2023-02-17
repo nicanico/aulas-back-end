@@ -18,20 +18,29 @@ entradaDados.question('Seja bem vindo(a) ao separador de números\n Insira o nú
 
     entradaDados.question('Insira número final: ', function (finalNumber) {
         let numeroFinal = finalNumber
-        let calcular
+        
 
-        if (numeroInicial == '' || numeroFinal == '') {
-            console.log('Você deixou entradas vazias, tente novamente')
-            entradaDados.close()
-        } else if (isNaN(numeroInicial) || isNaN(numeroFinal)) {
-            console.log('A entrada não é um número, tente novamente')
-            entradaDados.close()
-        } else {
-            calcular = calculoParEImpar.exibirNumeros(inicialNumber, finalNumber)
-            if(calcular == false){
-                console.log('Você inseriu valores de entrada abaixo de 0 e acima de 500 ou inseriu valor final inferior a 100 ou acima de 1000')
+        entradaDados.question('Você deseja apenas números pares ou os números impares? [digite apenas PARES || IMPARES || AMBAS]', function(escolha){
+            let escolhaImparOuPar = escolha
+            let calcular
+
+                if (numeroInicial == '' || numeroFinal == '' || escolhaImparOuPar == '') {
+                console.log('Você deixou entradas vazias, tente novamente')
+                entradaDados.close()
+            } else if (isNaN(numeroInicial) || isNaN(numeroFinal)) {
+                console.log('A entrada não é um número, tente novamente')
+                entradaDados.close()
+            } else {
+                calcular = calculoParEImpar.exibirNumeros(inicialNumber, finalNumber, escolha)
+                
+                if(calcular == false){
+                console.log('Você inseriu valores de entrada abaixo de 0 ou acima de 500 ou inseriu valor final inferior a 100 ou acima de 1000.\n')
+                console.log('Você também pode ter inserido o nome dos números desejados de forma errada, verifique o campo.')
             }
-            entradaDados.close()
-        }
+                entradaDados.close()
+            }
+        })
+
+        
     })
 })

@@ -5,20 +5,34 @@
  * Versão: 1.0
  */
 
-function exibirNumeros(inicialNumber, finalNumber) {
+function exibirNumeros(inicialNumber, finalNumber, escolha) {
     let numeroInicial = Number(inicialNumber)
     let numeroFinal = Number(finalNumber)
+    let escolhaImparOuPar = escolha
     let tituloPar = 'Lista de números pares'
     let tituloImpar = 'Lista de números impares'
 
-    if( numeroInicial < 0 || numeroInicial > 500 || numeroFinal < 100 || numeroFinal > 1000){
+    if(numeroInicial < 0 || numeroInicial > 500 || numeroFinal < 100 || numeroFinal > 1000 || escolhaImparOuPar.toUpperCase() != 'AMBAS' && escolhaImparOuPar.toUpperCase() != 'PARES' && escolhaImparOuPar.toUpperCase() != 'IMPARES'){
         return false
+    } else if(numeroInicial == numeroFinal || numeroInicial > numeroFinal){ 
+        console.log('Você inseriu entradas e saidas iguais ou o número inicial é do que o final, tente novamente')
     } else {
-        console.log(tituloPar)
-        numerosPares(numeroInicial, numeroFinal)
+        if(escolhaImparOuPar.toUpperCase() == 'AMBAS'){
+            console.log(tituloPar)
+            numerosPares(numeroInicial, numeroFinal)
+
+            console.log(tituloImpar)
+            numerosImpares(numeroInicial, numeroFinal)
+        } else if(escolhaImparOuPar.toUpperCase() == 'PARES'){
+            
+            console.log(tituloPar)
+            numerosPares(numeroInicial, numeroFinal)
+        }else if(escolhaImparOuPar.toUpperCase() == 'IMPARES'){
+            
+            console.log(tituloImpar)
+            numerosImpares(numeroInicial, numeroFinal)
+        } 
         
-        console.log(tituloImpar)
-        numerosImpares(numeroInicial, numeroFinal)
     }
     
 }
