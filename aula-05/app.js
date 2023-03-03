@@ -1,7 +1,7 @@
 /*
  * Objetivo: Utilizar código  e metodos de Array
  * Data: 24/02/2023
- * Autor: Marcel
+ * Autor: Nicole
  * Versão: 1.0
  */
 
@@ -280,25 +280,29 @@ const listagemProdutos = function () {
     // console.log('Cor: ' + listProdutosJSON.produtos[1].cores[1])
     // console.log('Modelo: ' + listProdutosJSON.produtos[1].modelos[1])
 
+    // para cada elemento chamado ele coloca dentro do item
+    // tudo que quisermos saber esta dentro do item
+    listProdutosJSON.produtos.forEach(function(itemProduto){
+        console.log('Nome: ' + itemProduto.nome)
+        console.log('marca: ' + itemProduto.marca)
+        console.log('valor: ' + itemProduto.valor)
 
-    let contador = 0
-    let contadorCores = 0
-    let itens = listProdutosJSON.produtos.length
-    
-    while(contador < itens){
-        console.log('--------------------------------')
-        console.log('Nome: ' + listProdutosJSON.produtos[contador].nome)
-        console.log('Marca: ' + listProdutosJSON.produtos[contador].marca)
-        console.log('Valor: ' + listProdutosJSON.produtos[contador].valor)
-        while(contadorCores <= contador){
-            console.log('Cor: ' + listProdutosJSON.produtos[contador].cores[contadorCores])
-            contadorCores++
-            
+        // tratativa de erro para quando não exitir cores
+        if(itemProduto.cores != undefined ){
+            itemProduto.cores.forEach(function(cor){
+                // percorre  array de cores que esta dentro do array de produtos
+                console.log('Cor: ' + cor)
+            })
         }
-        contador++
-        
-    }
-    
+
+        if(itemProduto.modelos != undefined ){
+            // percorre o array de modelos que esta dentro do array de produtos
+            itemProduto.modelos.forEach(function(modelo){
+                console.log('Modelo: ' + modelo)
+            })
+            console.log('----------------------')
+        }
+    })
 
     
 
