@@ -11,6 +11,8 @@ const { estadosCidades } = require('./estados_cidades')
 const estadoCidade = estadosBrasil.estadosCidades.estados
 
 
+
+
 const getListaDeEstados = function (json) {
     // entrada
     const estadosJSON = json.slice()
@@ -124,21 +126,104 @@ const getEstadosRegiao = function (json, filtro) {
             estadosDesUf.descricao = dadosRegiao.nome
 
             estado.push(estadosDesUf)
+            status = true
 
+        } else {
+            status = false
         }
     })
-    console.log(dadosEstadoCapital)
+
+    if (status) {
+
+        return dadosEstadoCapital
+    } else {
+        return false
+    }
+
+
 }
 
 const getCapitalPais = function (json) {
     const estadosJSON = json.slice()
+    const capitaisPais = {}
+    const capitais = []
+
+    let status
+
+    if (json != undefined) {
+        estadosJSON.forEach(function (capitaisBrasil) {
+            if (capitaisBrasil.capital_pais != undefined) {
+                const capital = {}
+                capital.capital_atual = capitaisBrasil.capital_pais.capital
+                capital.uf = capitaisBrasil.sigla
+                capital.descricao = capitaisBrasil.nome
+                capital.regiao = capitaisBrasil.regiao
+                capital.capital_pais_ano_inicio = capitaisBrasil.capital_pais.ano_inicio
+                capital.capital_pais_ano_termino = capitaisBrasil.capital_pais.ano_fim
+                capitais.push(capital)
+                capitaisPais.capitais = capitais
+                // console.log(capitaisBrasil.capital_pais.capital)
+            }
+
+        })
+
+        status = true
+    } else {
+        status = false
+    }
+
+    if (status) {
+        // console.log(capitaisPais)
+
+        return capitaisPais
+    } else {
+        return false
+    }
+
+
+
 }
 
 const getCidades = function (json, filtro) {
+    const filtroCidade = filtro
+    const cidades = json.slice()
+    const dadosEstadoCapital = {}
+    const cidade = []
+    let status
+
+    cidades.forEach(function (dadosCidade) {
+        if (dadosCidade.sigla == filtroCidade) {
+            dadosEstadoCapital.uf = dadosCidade.sigla
+            dadosEstadoCapital.descricao = dadosCidade.nome
+
+            dadosCidade.cidades.forEach(function (nomeDasCidades) {
+                cidade.push(nomeDasCidades.nome)
+
+                dadosEstadoCapital.quantidade_cidades = cidade.length
+                dadosEstadoCapital.cidades = cidade
+            })
+            console.log(dadosEstadoCapital)
+            status = true
+
+        } else {
+            status = false
+        }
+
+    })
+
+    if (status) {
+
+        return dadosEstadoCapital
+    } else {
+        return false
+    }
+
 
 }
 
 // getListaDeEstados(estadoCidade)
 // getDadosEstado(estadoCidade, 'RJ')
 // getCapitalEstado(estadoCidade, 'AC')
-getEstadosRegiao(estadoCidade, 'Sul')
+// getEstadosRegiao(estadoCidade, 'Sul')
+getCapitalPais(estadoCidade)
+// getCidades(estadoCidade, 'AC')
