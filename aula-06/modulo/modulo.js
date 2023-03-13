@@ -39,9 +39,9 @@ const getListaDeEstados = function () {
 
 }
 
-const getDadosEstado = function (json, filtro) {
-    const uf = filtro
-    const estadosJSON = json.slice()
+const getDadosEstado = function (filtro) {
+    const uf = filtro.toUpperCase()
+    const estadosJSON = estadoCidade.slice()
     const dadosEstado = {}
     let status
 
@@ -52,12 +52,11 @@ const getDadosEstado = function (json, filtro) {
                 dadosEstado.descricao = estadosDados.nome
                 dadosEstado.capital = estadosDados.capital
                 dadosEstado.regiao = estadosDados.regiao
-
+                status = true
+            } else {
+                return false
             }
         })
-
-        status = true
-
     } else {
         status = false
     }
@@ -72,9 +71,9 @@ const getDadosEstado = function (json, filtro) {
 
 }
 
-const getCapitalEstado = function (json, filtro) {
-    const uf = filtro
-    const estadosJSON = json.slice()
+const getCapitalEstado = function (filtro) {
+    const uf = filtro.toUpperCase()
+    const estadosJSON = estadoCidade.slice()
     const dadosEstadoCapital = {}
     let status
 
@@ -84,9 +83,12 @@ const getCapitalEstado = function (json, filtro) {
                 dadosEstadoCapital.uf = dadosCapital.sigla
                 dadosEstadoCapital.descricao = dadosCapital.nome
                 dadosEstadoCapital.capital = dadosCapital.capital
+                status = true
+            } else {
+                return false
             }
         })
-        status = true
+        
 
     } else {
         status = false
@@ -102,16 +104,15 @@ const getCapitalEstado = function (json, filtro) {
 
 }
 
-const getEstadosRegiao = function (json, filtro) {
+const getEstadosRegiao = function (filtro) {
     const filtroRegiao = filtro
-    const estadosJSON = json.slice()
+    const estadosJSON = estadoCidade.slice()
     const dadosEstadoCapital = {}
     const estado = []
 
     let status
 
     estadosJSON.forEach(function (dadosRegiao) {
-
         if (dadosRegiao.regiao == filtroRegiao) {
             dadosEstadoCapital.regiao = dadosRegiao.regiao
 
@@ -126,7 +127,7 @@ const getEstadosRegiao = function (json, filtro) {
             status = true
 
         } else {
-            status = false
+            return false
         }
     })
 
@@ -140,14 +141,12 @@ const getEstadosRegiao = function (json, filtro) {
 
 }
 
-const getCapitalPais = function (json) {
-    const estadosJSON = json.slice()
+const getCapitalPais = function () {
+    const estadosJSON = estadoCidade.slice()
     const capitaisPais = {}
     const capitais = []
-
     let status
 
-    if (json != undefined) {
         estadosJSON.forEach(function (capitaisBrasil) {
             if (capitaisBrasil.capital_pais != undefined) {
                 const capital = {}
@@ -159,15 +158,13 @@ const getCapitalPais = function (json) {
                 capital.capital_pais_ano_termino = capitaisBrasil.capital_pais.ano_fim
                 capitais.push(capital)
                 capitaisPais.capitais = capitais
+                status = true
                 // console.log(capitaisBrasil.capital_pais.capital)
+            } else {
+                return false
             }
 
         })
-
-        status = true
-    } else {
-        status = false
-    }
 
     if (status) {
     // console.log(capitaisPais)
@@ -181,9 +178,9 @@ const getCapitalPais = function (json) {
 
 }
 
-const getCidades = function (json, filtro) {
-    const filtroCidade = filtro
-    const cidades = json.slice()
+const getCidades = function (filtro) {
+    const filtroCidade = filtro.toUpperCase()
+    const cidades = estadoCidade.slice()
     const dadosEstadoCapital = {}
     const cidade = []
     let status
@@ -198,12 +195,13 @@ const getCidades = function (json, filtro) {
 
                 dadosEstadoCapital.quantidade_cidades = cidade.length
                 dadosEstadoCapital.cidades = cidade
+                status = true
             })
             console.log(dadosEstadoCapital)
-            status = true
+            
 
         } else {
-            status = false
+            return false
         }
 
     })
