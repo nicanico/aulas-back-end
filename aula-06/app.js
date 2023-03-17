@@ -66,7 +66,7 @@ app.use((request, response, next) => {
     // response - responde
 
     // EdnPoint para listar todos os estados
-    app.get('/estados', cors(), async function(request, response, next){
+    app.get('/v1/senai/estados', cors(), async function(request, response, next){
         
         
         // chama a função que vai listart todos os estados
@@ -84,8 +84,8 @@ app.use((request, response, next) => {
     })
 
     // EndPoint: listar os dados do estado filtrando pela sigla do estado
-    
-    app.get('/estado/:uf', cors(), async function(request, response, next){
+    // dizemos aqui que o nosso filtro é feito pela sigla
+    app.get('/v1/senai/estado/sigla/:uf', cors(), async function(request, response, next){
 
         let statusCode
         let dadosEstado = {}
@@ -111,7 +111,7 @@ app.use((request, response, next) => {
         response.json(dadosEstado)
     })
 
-    app.get('/estadoCapital/:uf', cors(), async function(request, response, next){
+    app.get('/v1/senai/estadoCapital/sigla/:uf', cors(), async function(request, response, next){
         let statusCode
         let dadosEstado = {}
 
@@ -134,7 +134,7 @@ app.use((request, response, next) => {
         response.json(dadosEstado)
     })
 
-    app.get('/estadoRegiao/:regiao', cors(), async function(request, response, next){
+    app.get('/v1/senai/estadoRegiao/:regiao', cors(), async function(request, response, next){
         let statusCode
         let dadosEstado = {}
 
@@ -157,7 +157,7 @@ app.use((request, response, next) => {
         response.json(dadosEstado)
     })
 
-    app.get('/estadosCapitalPais', cors(), async function(request, response, next){
+    app.get('/v1/senai/estadosCapitalPais', cors(), async function(request, response, next){
         let statusCode
         let dadosEstado = {}
         
@@ -174,7 +174,7 @@ app.use((request, response, next) => {
     response.json(dadosEstado)
     })
 
-    app.get('/estadoCidade/:uf', cors(), async function(request, response, next){
+    app.get('/v1/senai/estadoCidades/estado/sigla/:uf', cors(), async function(request, response, next){
         let statusCode
         let dadosEstado = {}
 
@@ -196,7 +196,46 @@ app.use((request, response, next) => {
         response.status(statusCode)
         response.json(dadosEstado)
     })
-    
+    app.get('/v2/senai/cidades', cors(), async function(request, response, next){
+        
+        /*
+         *      Existem 2 opções para receber variaveis para filtro
+         *      params - que permite receber a variavel na estrutura da URL
+         *              criada no endPoint(geralmente utilizado para ID(PK))
+         * 
+         *      Query - Também conhecido como queryString permite receber 
+         *              uma ou muitas variaveis para realizar filtros avançados
+         */
+
+        // Para receber via queryString pela web inves de usar o params, nos usamos o query
+        // recebe uma variavel ecaminhada via queryString
+        let siglaEstado = request.query.uf
+        // let cepEstado = request.query.cep
+        // let populacaoEstado = request.query.populacao
+
+        let statusCode
+        let dadosCidades = {}
+
+        if(siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)){
+            statusCode = 400
+            dadosCidades.message = 'Não foi possivel processar pois os dados de entrada (uf) que foi enviado não corresponde ao exigido, confira o valor, pois não pode ser vazio, precisa ser caracteres e ter 2 digitos'
+        } else {
+            let cidades = estadosCidades.getCidades(siglaEstado)
+
+            if(cidades){
+                statusCode = 200
+                dadosCidades = cidades
+            } else {
+                statusCode = 404
+            }
+        }
+        response.status(statusCode)
+        response.json(dadosCidades)
+
+        // console.log(siglaEstado)
+        // console.log(cepEstado)
+        // console.log(populacaoEstado)
+    })
 
     // roda o serviço da API para ficar aguardando requisições
     app.listen(8080, function(){
