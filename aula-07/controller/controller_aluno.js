@@ -17,6 +17,24 @@ const novoAluno = function (dadosAluno){
 
 }
 
+// atualizar aluno existente
 const atualizarAluno = function (dadosAluno){
 
 }
+
+// deletar aluno existente
+const deletarAluno = function (id){
+
+}
+
+
+// retorna a lista de todos os alunos
+const getAlunos = function (){
+
+}
+
+// filtra os alunos pelo id
+const getBuscarAlunoId = function (id){
+
+}
+

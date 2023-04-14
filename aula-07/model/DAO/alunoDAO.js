@@ -1,7 +1,7 @@
 /*
  * Objetivo: responsavel pela manipulação de dados dos alunos no banco
  * Data: 14/04/2023
- * Autora: Nicole Souza
+ * Autora: Nicole Souza Santos
  * Versão: 1.0
  */
 
