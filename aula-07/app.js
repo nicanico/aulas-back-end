@@ -5,6 +5,16 @@
  * Versão: 1.0
  */
 
+/*
+    Instalação do PRISMA no projeto (biblioteca para cnexão com DB)
+        npm install prisma --save
+        npx prisma
+        npx prisma init
+        npm install @prisma/client --save
+
+
+        npx prisma migrate dev ### serve para realizar o sincronismo entre o prisma e o BD
+ */
 
 // import das libs para API
 const express = require('express')
@@ -44,25 +54,43 @@ app.use((request, response, next) => {
  * 
 */
 
+
+
     // Endpoint: retorna todos os dados de alunos
-    app.get('/v1/lion-school/aluno', cors(), async, function(request, response){
+    app.get('/v1/lion-school/aluno', cors(), async function(request, response){
+        // import do arquivo da controller que irá solicitar a model os dados do BD
+        let controllerAluno = require('./controller/controller_aluno.js')
+
+
+        // recebe os dados da controller do aluno
+        let dadosAluno = await controllerAluno.getAlunos()
+
+        // valida se existe registros de alunos
+        if(dadosAluno){
+            response.json(dadosAluno)
+            response.status(200)
+            
+        } else {
+            response.json()
+            response.status(500)
+        }
 
     })
 
     // Endpoint: retorna o aluno filtrando pelo ID
-    app.get('/v1/lion-school/aluno/:id', cors(), async, function(request, response){
+    app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response){
 
     })
 
     // Obrigatoriamente devemos ter esses dois endpoints em QUALQUER api criada
 
     // Endpoint: insere um novo dado 
-    app.post('/v1/lion-school/aluno', cors(), async, function(request, response){
+    app.post('/v1/lion-school/aluno', cors(), async function(request, response){
 
     })
 
     // Endpoint: atualiza um aluno existente, filtrando pelo ID
-    app.put('/v1/lion-school/aluno/:id', cors(), async, function(request, response){
+    app.put('/v1/lion-school/aluno/:id', cors(), async function(request, response){
 
     })
 
@@ -71,7 +99,31 @@ app.use((request, response, next) => {
 
 
     // Endpoint: exclui aluno filtrando pelo id
-    app.delete('/v1/lion-school/aluno/:id', cors(), async, function(request, response){
+    app.delete('/v1/lion-school/aluno/:id', cors(), async function(request, response){
+
+    })
+
+    // Endpoint: filtra e exibe aluno com base no nome
+
+    app.get('/v1/lion-school/aluno/nome/:nome', cors(), async function(request, response, next){
+
+        let controllerAluno = require('./controller/controller_aluno.js')
+
+        let nomeAluno = request.params.nome
+
+        let dadosAluno = await controllerAluno.getBuscarAlunoNome(nomeAluno)
+        console.log(dadosAluno)
+
+        // valida se existe registros de alunos
+        if(dadosAluno){
+            response.json(dadosAluno)
+            console.log(dadosAluno)
+            response.status(200)
+            
+        } else {
+            response.json()
+            response.status(500)
+        }
 
     })
 
