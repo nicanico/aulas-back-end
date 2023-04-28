@@ -16,11 +16,19 @@
         npx prisma migrate dev ### serve para realizar o sincronismo entre o prisma e o BD
  */
 
+    
+
 // import das libs para API
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const { request, response } = require('express')
+
+// define que os dados que irão chegar da requisição será no padrão JSON
+const bodyParserJSON = bodyParser.json()
+
+// import do arquivo da controller que irá solicitar a model os dados do BD
+let controllerAluno = require('./controller/controller_aluno.js')
 
 // Cria o objeto app conforme a classe do express
 const app = express()
@@ -45,29 +53,17 @@ app.use((request, response, next) => {
 // CRUD (Create, Read, Update, e Delete)
 // todos os arquivos devem ter um crud ou pelo menos todas essas funcionalidades
 
-/*
- * 
- * Objetivo: API de controle de ALUNOS
- * Data: 14/04/2023
- * Autor: Nicole
- * Versão: 1.0
- * 
-*/
-
-
 
     // Endpoint: retorna todos os dados de alunos
     app.get('/v1/lion-school/aluno', cors(), async function(request, response){
-        // import do arquivo da controller que irá solicitar a model os dados do BD
-        let controllerAluno = require('./controller/controller_aluno.js')
-
+        
 
         // recebe os dados da controller do aluno
-        let dadosAluno = await controllerAluno.getAlunos()
+        let dados = await controllerAluno.getAlunos()
 
         // valida se existe registros de alunos
-        if(dadosAluno){
-            response.json(dadosAluno)
+        if(dados){
+            response.json(dados)
             response.status(200)
             
         } else {
@@ -85,7 +81,15 @@ app.use((request, response, next) => {
     // Obrigatoriamente devemos ter esses dois endpoints em QUALQUER api criada
 
     // Endpoint: insere um novo dado 
-    app.post('/v1/lion-school/aluno', cors(), async function(request, response){
+    app.post('/v1/lion-school/aluno', cors(), bodyParserJSON, async function(request, response){
+
+        // recebe os dados encaminhados na requisição
+        let dadosBody = request.body
+
+        let resultDadosAluno = await controllerAluno.inserirAluno(dadosBody)
+
+        response.status(resultDadosAluno.status)
+        response.json(resultDadosAluno)
 
     })
 
@@ -111,13 +115,13 @@ app.use((request, response, next) => {
 
         let nomeAluno = request.params.nome
 
-        let dadosAluno = await controllerAluno.getBuscarAlunoNome(nomeAluno)
-        console.log(dadosAluno)
+        let buscarNome = await controllerAluno.getBuscarAlunoNome(nomeAluno)
+        console.log(buscarNome)
 
         // valida se existe registros de alunos
-        if(dadosAluno){
-            response.json(dadosAluno)
-            console.log(dadosAluno)
+        if(buscarNome){
+            response.json(buscarNome)
+            console.log(buscarNome)
             response.status(200)
             
         } else {
