@@ -11,6 +11,7 @@ var alunosDAO = require('../model/DAO/alunoDAO.js')
 
 // import de arquivos de configuração das variaveis, constantes e funções de erro
 var message = require('./modulo/config.js')
+const { ERROR_INVALID_ID } = require('./modulo/config.js')
 
 
 // os controllers são no minimo um para cada tabela
@@ -78,7 +79,18 @@ const atualizarAluno = async function (dadosAluno, idAluno) {
 }
 
 // deletar aluno existente
-const deletarAluno = function (id) {
+const deletarAluno = async function (id) {
+
+    if( id == '' || id == undefined || isNaN(id)){
+        return message.ERROR_INVALID_ID
+    } else {
+        let resultDadosAluno = await alunosDAO.deleteAluno(id)
+        console.log(id)
+        if(resultDadosAluno)
+            return message.SUCESS_USER_DELETION
+        else 
+            return message.ERROR_INTERNAL_SERVER
+    }
 
 }
 
@@ -103,7 +115,14 @@ const getAlunos = async function () {
 }
 
 // filtra os alunos pelo id
-const getBuscarAlunoId = function (id) {
+const getBuscarAlunoId = async function (id) {
+
+    if(id == '' || id == undefined || id < 1){
+        return ERROR_INVALID_ID
+    } else {
+        let resultDadosAluno = await alunosDAO.selectByIdAluno(id)
+        return resultDadosAluno
+    }
 
 }
 
@@ -135,5 +154,7 @@ module.exports = {
     getAlunos,
     getBuscarAlunoNome,
     inserirAluno,
-    atualizarAluno
+    atualizarAluno,
+    deletarAluno,
+    getBuscarAlunoId
 }

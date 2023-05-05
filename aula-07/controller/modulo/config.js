@@ -21,6 +21,11 @@ const ERROR_INVALID_ID = {
     message: 'O ID informado na requisição não é valido ou não foi encaminhado'
 }
 
+const ERROR_INVALID_CONTENT_TYPE = {
+    status: 415,
+    message: 'O tipo de mídia Contet-Type da solicitação não é compativel com o servidor. Tipo aceito: [application/json]'
+}
+
 /* Mensagens de SUCESSO */
 const SUCESS_CREATED_ITEM = {
     status: 201,
@@ -32,10 +37,17 @@ const SUCESS_UPDATE_ITEM = {
     message: 'Item atualizado com sucesso'
 }
 
+const SUCESS_USER_DELETION = {
+    status: 200,
+    message: 'Item deletado com sucesso'
+}
+
 module.exports = {
     ERROR_REQUIRED_FIELDS,
     SUCESS_CREATED_ITEM,
     ERROR_INTERNAL_SERVER,
     ERROR_INVALID_ID,
-    SUCESS_UPDATE_ITEM
+    SUCESS_UPDATE_ITEM,
+    ERROR_INVALID_CONTENT_TYPE,
+    SUCESS_USER_DELETION
 }

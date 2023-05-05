@@ -69,8 +69,17 @@ const updateAluno = async function(dadosAluno){
 }
 
 // Deletar dados do aluno no banco de dados
-const deleteAluno = function(id){
+const deleteAluno = async function(id){
+    let sql = `delete from tbl_aluno
+                    where id = '${id}'
+                `
 
+    let resultStatus = await prisma.$executeRawUnsafe(sql)
+
+    if(resultStatus)
+        return true
+    else 
+        return false
 }
 
 // retornar todos os alunos 
@@ -95,14 +104,21 @@ const selectallAlunos = async function(){
 }
 
 // retornar dados do aluno filtrando pelo id
-const selectByIdAluno = function(id){
+const selectByIdAluno = async function(id){
 
+    let sql = `select * from tbl_aluno where id = '${id}'`
+
+    let rsAluno = await prisma.$queryRawUnsafe(sql)
+
+    if(rsAluno.length > 0)
+        return rsAluno
+    else
+        return false
 }
 
 const selectByNameAluno = async function(name){
 
     // let { PrismaClient } = require('@prisma/client')
-
     // let prisma = new PrismaClient()
     
     let sql = `select * from tbl_aluno where nome like '%${name}%'`
@@ -123,6 +139,7 @@ module.exports = {
     selectByIdAluno,
     selectByNameAluno,
     insertAluno,
-    updateAluno
+    updateAluno,
+    deleteAluno
 }
 

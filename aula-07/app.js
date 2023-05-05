@@ -29,7 +29,7 @@ const bodyParserJSON = bodyParser.json()
 
 // import do arquivo da controller que irá solicitar a model os dados do BD
 let controllerAluno = require('./controller/controller_aluno.js')
-
+let message = require('./controller/modulo/config.js')
 // Cria o objeto app conforme a classe do express
 const app = express()
 
@@ -76,6 +76,14 @@ app.use((request, response, next) => {
     // Endpoint: retorna o aluno filtrando pelo ID
     app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response){
 
+        let id = request.params.id
+
+        let resultDadosAluno = await controllerAluno.getBuscarAlunoId(id)
+        console.log(resultDadosAluno)
+
+        response.status(200)
+        response.json(resultDadosAluno)
+
     })
 
     // Obrigatoriamente devemos ter esses dois endpoints em QUALQUER api criada
@@ -96,17 +104,25 @@ app.use((request, response, next) => {
     // Endpoint: atualiza um aluno existente, filtrando pelo ID
     app.put('/v1/lion-school/aluno/:id', cors(), bodyParserJSON, async function(request, response){
 
-        // recebe o id do aluno pelo parametro 
-        let idAluno = request.params.id
-        // recebe os dados do aluno encaminhado no corpo da requisição
-        let dadosBody = request.body
-        console.log(dadosBody)
+        // para pegar contentType da resquest 
+        let contentType = request.headers['content-type']
 
-        let resultDadosAluno = await controllerAluno.atualizarAluno(dadosBody, idAluno)
+        if(String(contentType).toLowerCase() == 'application/json'){
+            // recebe o id do aluno pelo parametro 
+            let idAluno = request.params.id
+            // recebe os dados do aluno encaminhado no corpo da requisição
+            let dadosBody = request.body
+            console.log(dadosBody)
 
-        response.status(resultDadosAluno.status)
-        response.json(resultDadosAluno)
+            let resultDadosAluno = await controllerAluno.atualizarAluno(dadosBody, idAluno)
 
+            response.status(resultDadosAluno.status)
+            response.json(resultDadosAluno)
+        } else {
+            // validação para receber dados apenas no formato JSON
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status)
+            response.json(message.ERROR_INVALID_CONTENT_TYPE)
+        }
     })
 
     // nota: post insere novos dados (insert) e o put atualiza dados já existentes (update)
@@ -115,7 +131,14 @@ app.use((request, response, next) => {
 
     // Endpoint: exclui aluno filtrando pelo id
     app.delete('/v1/lion-school/aluno/:id', cors(), async function(request, response){
+        
+        let id = request.params.id
 
+        let resultDadosAluno = await controllerAluno.deletarAluno(id)
+        console.log(id)
+
+        response.status(resultDadosAluno.status)
+        response.json(resultDadosAluno)
     })
 
     // Endpoint: filtra e exibe aluno com base no nome
