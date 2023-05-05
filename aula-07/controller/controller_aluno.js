@@ -49,7 +49,31 @@ const inserirAluno = async function (dadosAluno) {
 }
 
 // atualizar aluno existente
-const atualizarAluno = function (dadosAluno) {
+const atualizarAluno = async function (dadosAluno, idAluno) {
+
+    if (dadosAluno.nome == ''            || dadosAluno.nome == undefined || dadosAluno.nome.length > 100 ||
+        dadosAluno.rg == ''              || dadosAluno.rg == undefined || dadosAluno.rg.length > 15 ||
+        dadosAluno.cpf == ''             || dadosAluno.cpf == undefined || dadosAluno.cpf.length > 18 ||
+        dadosAluno.data_nascimento == '' || dadosAluno.data_nascimento == undefined || dadosAluno.data_nascimento.length > 10 ||
+        dadosAluno.email == ''           || dadosAluno.email == undefined || dadosAluno.email.length > 200
+
+    ) {
+        // retorna a mensagem de erro que esta na config
+        return message.ERROR_REQUIRED_FIELDS // status code 400
+        // validação de ID incorreto ou não informado
+    } else if(idAluno == '' || idAluno == undefined || isNaN(idAluno)){
+        return message.ERROR_INVALID_ID
+    } else {
+        // adiciona o id do aluno no JSON dos dados
+        dadosAluno.id = idAluno
+
+        let resultDadosAluno = await alunosDAO.updateAluno(dadosAluno)
+
+        if(resultDadosAluno)
+            return message.SUCESS_UPDATE_ITEM
+        else
+            return message.ERROR_INTERNAL_SERVER
+    }
 
 }
 
@@ -110,5 +134,6 @@ const getBuscarAlunoNome = async function (nome) {
 module.exports = {
     getAlunos,
     getBuscarAlunoNome,
-    inserirAluno
+    inserirAluno,
+    atualizarAluno
 }

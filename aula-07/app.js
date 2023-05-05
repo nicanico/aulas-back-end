@@ -94,7 +94,17 @@ app.use((request, response, next) => {
     })
 
     // Endpoint: atualiza um aluno existente, filtrando pelo ID
-    app.put('/v1/lion-school/aluno/:id', cors(), async function(request, response){
+    app.put('/v1/lion-school/aluno/:id', cors(), bodyParserJSON, async function(request, response){
+
+        // recebe o id do aluno pelo parametro 
+        let idAluno = require.params.id
+        // recebe os dados do aluno encaminhado no corpo da requisição
+        let dadosBody = request.body
+
+        let resultDadosAluno = await controllerAluno.atualizarAluno(dadosBody, idAluno)
+
+        response.status(resultDadosAluno.status)
+        response.json(resultDadosAluno)
 
     })
 
