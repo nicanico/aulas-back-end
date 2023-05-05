@@ -54,7 +54,7 @@ const updateAluno = async function(dadosAluno){
                     nome = '${dadosAluno.nome}',
                     rg  = '${dadosAluno.rg}',
                     cpf = '${dadosAluno.cpf}',
-                    data_nascimento'${dadosAluno.data_nascimento}'
+                    data_nascimento = '${dadosAluno.data_nascimento}',
                     email = '${dadosAluno.email}'
                 where id = '${dadosAluno.id}'
     `

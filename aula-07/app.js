@@ -97,9 +97,10 @@ app.use((request, response, next) => {
     app.put('/v1/lion-school/aluno/:id', cors(), bodyParserJSON, async function(request, response){
 
         // recebe o id do aluno pelo parametro 
-        let idAluno = require.params.id
+        let idAluno = request.params.id
         // recebe os dados do aluno encaminhado no corpo da requisição
         let dadosBody = request.body
+        console.log(dadosBody)
 
         let resultDadosAluno = await controllerAluno.atualizarAluno(dadosBody, idAluno)
 
