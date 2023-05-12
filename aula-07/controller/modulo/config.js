@@ -26,6 +26,11 @@ const ERROR_INVALID_CONTENT_TYPE = {
     message: 'O tipo de mídia Contet-Type da solicitação não é compativel com o servidor. Tipo aceito: [application/json]'
 }
 
+const ERROR_NOT_FOUND = {
+    status: 404,
+    message: 'Nenhum item encontrado na requisição'
+}
+
 /* Mensagens de SUCESSO */
 const SUCESS_CREATED_ITEM = {
     status: 201,
@@ -42,6 +47,11 @@ const SUCESS_USER_DELETION = {
     message: 'Item deletado com sucesso'
 }
 
+const SUCESS_REQUEST = {
+    status: 200,
+    message: 'Requisição bem sucedida'
+}
+
 module.exports = {
     ERROR_REQUIRED_FIELDS,
     SUCESS_CREATED_ITEM,
@@ -49,5 +59,7 @@ module.exports = {
     ERROR_INVALID_ID,
     SUCESS_UPDATE_ITEM,
     ERROR_INVALID_CONTENT_TYPE,
-    SUCESS_USER_DELETION
+    SUCESS_USER_DELETION,
+    SUCESS_REQUEST,
+    ERROR_NOT_FOUND
 }

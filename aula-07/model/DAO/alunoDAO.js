@@ -58,7 +58,6 @@ const updateAluno = async function(dadosAluno){
                     email = '${dadosAluno.email}'
                 where id = '${dadosAluno.id}'
     `
-
     // executa o script no banco 
     let resultStatus = await prisma.$executeRawUnsafe(sql)
 
@@ -134,12 +133,27 @@ const selectByNameAluno = async function(name){
         
 }
 
+// retorna o ultimo id inserido no banco de dados
+const selectedLastId = async function(){
+    
+    let sql = `select * from tbl_aluno order by id desc limit 1`
+
+    let rsAluno = await prisma.$queryRawUnsafe(sql)
+
+    if(rsAluno.length > 0)
+        return rsAluno
+    else
+        return false
+
+}
+
 module.exports = {
     selectallAlunos,
     selectByIdAluno,
     selectByNameAluno,
     insertAluno,
     updateAluno,
-    deleteAluno
+    deleteAluno,
+    selectedLastId
 }
 

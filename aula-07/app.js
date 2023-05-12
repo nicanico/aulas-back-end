@@ -62,14 +62,16 @@ app.use((request, response, next) => {
         let dados = await controllerAluno.getAlunos()
 
         // valida se existe registros de alunos
-        if(dados){
-            response.json(dados)
-            response.status(200)
+        response.status(dados.status)
+        response.json(dados)
+        // if(dados){
+        //     response.json(dados)
+        //     response.status(200)
             
-        } else {
-            response.json()
-            response.status(500)
-        }
+        // } else {
+        //     response.json()
+        //     response.status(500)
+        // }
 
     })
 
@@ -81,7 +83,7 @@ app.use((request, response, next) => {
         let resultDadosAluno = await controllerAluno.getBuscarAlunoId(id)
         console.log(resultDadosAluno)
 
-        response.status(200)
+        response.status(resultDadosAluno.status)
         response.json(resultDadosAluno)
 
     })

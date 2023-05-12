@@ -11,7 +11,8 @@ var alunosDAO = require('../model/DAO/alunoDAO.js')
 
 // import de arquivos de configuração das variaveis, constantes e funções de erro
 var message = require('./modulo/config.js')
-const { ERROR_INVALID_ID } = require('./modulo/config.js')
+const { ERROR_INVALID_ID, SUCESS_CREATED_ITEM, ERROR_NOT_FOUND } = require('./modulo/config.js')
+const { selectByIdAluno } = require('../model/DAO/alunoDAO.js')
 
 
 // os controllers são no minimo um para cada tabela
@@ -42,7 +43,15 @@ const inserirAluno = async function (dadosAluno) {
 
         // Valida se o BD inseriu corretamente os dados
         if (resultDadosAluno) {
-            return message.SUCESS_CREATED_ITEM // status code 201
+            // chama a função de pegar o ultimo id criado após o insert
+            let novoAluno = await alunosDAO.selectedLastId()
+
+            let dadosAlunosJSON = {}
+
+            dadosAlunosJSON.status = SUCESS_CREATED_ITEM.status
+            dadosAlunosJSON.aluno = novoAluno
+
+            return dadosAlunosJSON // status code 201
         } else {
             return message.ERROR_INTERNAL_SERVER // status code 500
         }
@@ -52,28 +61,42 @@ const inserirAluno = async function (dadosAluno) {
 // atualizar aluno existente
 const atualizarAluno = async function (dadosAluno, idAluno) {
 
-    if (dadosAluno.nome == ''            || dadosAluno.nome == undefined || dadosAluno.nome.length > 100 ||
-        dadosAluno.rg == ''              || dadosAluno.rg == undefined || dadosAluno.rg.length > 15 ||
-        dadosAluno.cpf == ''             || dadosAluno.cpf == undefined || dadosAluno.cpf.length > 18 ||
+    if (dadosAluno.nome == '' || dadosAluno.nome == undefined || dadosAluno.nome.length > 100 ||
+        dadosAluno.rg == '' || dadosAluno.rg == undefined || dadosAluno.rg.length > 15 ||
+        dadosAluno.cpf == '' || dadosAluno.cpf == undefined || dadosAluno.cpf.length > 18 ||
         dadosAluno.data_nascimento == '' || dadosAluno.data_nascimento == undefined || dadosAluno.data_nascimento.length > 10 ||
-        dadosAluno.email == ''           || dadosAluno.email == undefined || dadosAluno.email.length > 200
+        dadosAluno.email == '' || dadosAluno.email == undefined || dadosAluno.email.length > 200
 
     ) {
         // retorna a mensagem de erro que esta na config
         return message.ERROR_REQUIRED_FIELDS // status code 400
         // validação de ID incorreto ou não informado
-    } else if(idAluno == '' || idAluno == undefined || isNaN(idAluno)){
+    } else if (idAluno == '' || idAluno == undefined || isNaN(idAluno)) {
         return message.ERROR_INVALID_ID
     } else {
         // adiciona o id do aluno no JSON dos dados
         dadosAluno.id = idAluno
 
-        let resultDadosAluno = await alunosDAO.updateAluno(dadosAluno)
+        let statusId = await selectByIdAluno(idAluno)
 
-        if(resultDadosAluno)
-            return message.SUCESS_UPDATE_ITEM
-        else
-            return message.ERROR_INTERNAL_SERVER
+        if (statusId) {
+            let resultDadosAluno = await alunosDAO.updateAluno(dadosAluno)
+
+            if (resultDadosAluno) {
+                let dadosAlunosJSON = {}
+
+                dadosAlunosJSON.status = message.SUCESS_UPDATE_ITEM.status
+                dadosAlunosJSON.aluno = dadosAluno
+                return dadosAlunosJSON
+            } else {
+                return message.ERROR_INTERNAL_SERVER
+            }
+        } else {
+            return message.ERROR_NOT_FOUND
+        }
+
+
+
     }
 
 }
@@ -81,15 +104,23 @@ const atualizarAluno = async function (dadosAluno, idAluno) {
 // deletar aluno existente
 const deletarAluno = async function (id) {
 
-    if( id == '' || id == undefined || isNaN(id)){
+    if (id == '' || id == undefined || isNaN(id)) {
         return message.ERROR_INVALID_ID
     } else {
-        let resultDadosAluno = await alunosDAO.deleteAluno(id)
-        console.log(id)
-        if(resultDadosAluno)
-            return message.SUCESS_USER_DELETION
-        else 
-            return message.ERROR_INTERNAL_SERVER
+
+        let statusId = await selectByIdAluno(id)
+
+        if (statusId) {
+            let resultDadosAluno = await alunosDAO.deleteAluno(id)
+            
+            if (resultDadosAluno)
+                return message.SUCESS_USER_DELETION
+            else
+                return message.ERROR_INTERNAL_SERVER
+        } else {
+            return ERROR_NOT_FOUND
+        }
+
     }
 
 }
@@ -105,11 +136,14 @@ const getAlunos = async function () {
 
     if (dadosAluno) {
         // criando um json com o atributo alunos para encaminhar o array de alunos
+        dadosAlunosJSON.status = message.SUCESS_REQUEST.status // CASO ESSA LINHA DE VERIFICAÇÃO NÃO EXISTA, DEVEMOS TRATAR O STATUS NO APP
+        console.log(message.SUCESS_REQUEST.status)
+        dadosAlunosJSON.message = message.SUCESS_REQUEST.message
         dadosAlunosJSON.quantidade = dadosAluno.length
         dadosAlunosJSON.alunos = dadosAluno
         return dadosAlunosJSON
     } else {
-        return false
+        return message.ERROR_NOT_FOUND
     }
 
 }
@@ -117,12 +151,36 @@ const getAlunos = async function () {
 // filtra os alunos pelo id
 const getBuscarAlunoId = async function (id) {
 
-    if(id == '' || id == undefined || id < 1){
+    // validação do ID
+    if (id == '' || id == undefined || isNaN(id)) {
         return ERROR_INVALID_ID
     } else {
-        let resultDadosAluno = await alunosDAO.selectByIdAluno(id)
-        return resultDadosAluno
+        let dadosAlunosJSON = {}
+        // chama a função do arquivo DAO que irá retornar todos os registros do BD
+        let dadosAluno = await alunosDAO.selectByIdAluno(id)
+
+        if (dadosAluno) {
+            // criando um json com o atributo alunos para encaminhar o array de alunos
+            dadosAlunosJSON.status = message.SUCESS_REQUEST.status // CASO ESSA LINHA DE VERIFICAÇÃO NÃO EXISTA, DEVEMOS TRATAR O STATUS NO APP
+            console.log()
+            dadosAlunosJSON.message = message.SUCESS_REQUEST.message
+            dadosAlunosJSON.quantidade = dadosAluno.length
+            dadosAlunosJSON.alunos = dadosAluno
+
+            return dadosAlunosJSON
+        } else {
+            return message.ERROR_NOT_FOUND
+        }
     }
+
+
+
+    // if(id == '' || id == undefined || id < 1){
+    //     return ERROR_INVALID_ID
+    // } else {
+    //     let resultDadosAluno = await alunosDAO.selectByIdAluno(id)
+    //     return resultDadosAluno
+    // }
 
 }
 
